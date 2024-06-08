@@ -86,7 +86,11 @@ dependencies {
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
 
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0'
+    testImplementation('org.jetbrains.kotlinx:kotlinx-coroutines-test') {
+        version {
+            strictly '1.4.3'
+        }
+    }
     androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0'
 
     // Add the following for InstantTaskExecutorRule class. https://stackoverflow.com/a/56073388
