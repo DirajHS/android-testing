@@ -20,11 +20,13 @@ import com.example.android.architecture.blueprints.todoapp.MainCoroutineRule
 import com.example.android.architecture.blueprints.todoapp.data.source.FakeTestRepository
 import com.example.android.architecture.blueprints.todoapp.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.DelayController
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.coroutines.ContinuationInterceptor
 
 /**
  * Unit tests for the implementation of [StatisticsViewModel]
@@ -69,7 +71,7 @@ class StatisticsViewModelTest {
     @Test
     fun loadTasks_loading() {
         // Pause dispatcher so we can verify initial values
-        mainCoroutineRule.pauseDispatcher()
+        (mainCoroutineRule.coroutineContext[ContinuationInterceptor]!! as DelayController).pauseDispatcher()
 
         // Load the task in the viewmodel
         statisticsViewModel.refresh()
@@ -78,7 +80,7 @@ class StatisticsViewModelTest {
         assertThat(statisticsViewModel.dataLoading.getOrAwaitValue(), `is`(true))
 
         // Execute pending coroutines actions
-        mainCoroutineRule.resumeDispatcher()
+        (mainCoroutineRule.coroutineContext[ContinuationInterceptor]!! as DelayController).resumeDispatcher()
 
         // Then progress indicator is hidden
         assertThat(statisticsViewModel.dataLoading.getOrAwaitValue(), `is`(false))
