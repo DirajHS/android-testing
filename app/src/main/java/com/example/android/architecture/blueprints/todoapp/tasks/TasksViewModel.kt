@@ -36,6 +36,11 @@ class TasksViewModel(
 
     private val _forceUpdate = MutableLiveData<Boolean>(false)
 
+    // Not used at the moment
+    private val isDataLoadingError = MutableLiveData<Boolean>()
+
+    private var currentFiltering = TasksFilterType.ALL_TASKS
+
     private val _items: LiveData<List<Task>> = _forceUpdate.switchMap { forceUpdate ->
         if (forceUpdate) {
             _dataLoading.value = true
@@ -67,11 +72,6 @@ class TasksViewModel(
 
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarText: LiveData<Event<Int>> = _snackbarText
-
-    private var currentFiltering = TasksFilterType.ALL_TASKS
-
-    // Not used at the moment
-    private val isDataLoadingError = MutableLiveData<Boolean>()
 
     private val _openTaskEvent = MutableLiveData<Event<String>>()
     val openTaskEvent: LiveData<Event<String>> = _openTaskEvent
